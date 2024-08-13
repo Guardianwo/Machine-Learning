@@ -1,0 +1,140 @@
+{% extends 'index.html' %}
+
+
+{% block main %}
+    <div class="card" style="padding: 10px">
+        <div class="row">
+            <h1 style="padding: 10px">以下是为您默认推荐景点</h1>
+        </div>
+        <div class="row">
+            {% for data in datas %}
+                <div class="col-lg-6">
+                    <div class="card py-3">
+                        <img src="{{ data.12 }}" height="300" alt="{{ data.1 }}">
+                        <div class="card-body">
+                            <h5 class="card-title">景区:{{ data.1 }}
+                                <button style="float: right;" class="btn btn-success" id="{{ data.1 }}"
+                                        onclick="openModal()">
+                                    点击评论
+                                </button>
+                                <button style="float: right; margin-right: 10px" class="btn btn-warning">
+                                    <a style="color: white" href="/recommend?c={{ data.1 }}">点击喜欢</a>
+                                </button>
+                            </h5>
+                            <p class="card-text">HOT: {{ data.3 }}</p>
+                            <p class="card-text">评分: {{ data.8 }}</p>
+                            <p class="card-text">位置: {{ data.10 }}</p>
+                            <p class="card-text">特点:
+                                {{ data.5 }}</p>
+                            <p>最新评论：
+                                {{ data.18 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- 模态框 -->
+    <div id="myModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">评论</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="commentInput" class="form-control mb-2" placeholder="请输入评论内容..." rows="4"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn" data-dismiss="modal">取消</button>
+                    <button id="submitBtn" type="button" class="btn btn-primary" onclick="submitComment()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 获取模态框
+        var modal = document.getElementById("myModal");
+
+        // 获取打开模态框的按钮
+        var btn = document.querySelector(".btn-success");
+
+        // 获取关闭按钮
+        var span = document.getElementsByClassName("close")[0];
+
+        // 打开模态框
+        function openModal() {
+            var id = event.target.id; // 获取按钮的 id 值
+            // 将 id 设置到全局变量中，供提交评论时使用
+            window.commentId = id;
+            $('#myModal').modal('show'); // 打开模态框
+        }
+
+        // 点击关闭按钮关闭模态框
+        span.onclick = function () {
+            $('#myModal').modal('hide');
+        }
+
+        // 点击取消按钮关闭模态框
+        document.getElementById("cancelBtn").onclick = function () {
+            $('#myModal').modal('hide');
+        }
+
+        function submitComment() {
+            var comment = document.getElementById("commentInput").value;
+            var id = window.commentId; // 获取按钮的 id 值
+            // 使用 AJAX 向后端发送评论数据和 id 参数
+            $.ajax({
+                type: "POST",
+                url: "/recommend",
+                data: JSON.stringify({id: id, comment: comment}),
+                contentType: "application/json",
+                success: function (response) {
+                    // 处理后端返回的响应数据
+                    console.log(response.message);
+                    alert(response.message)
+                    window.location.reload()
+                    // 关闭模态框
+                    $('#myModal').modal('hide');
+                },
+                error: function (xhr, status, error) {
+                    // 处理错误
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+    </script>
+    <!-- 按钮 -->
+    <button class="btn btn-success" onclick="openModal()">点击评论</button>
+
+    {% if selected_rows %}
+        <div class="card" style="padding: 10px">
+            <div class="row">
+                <h1 style="padding: 10px">您点击的喜欢是：<span style="color: #00ff80">{{ c }}</span>， 基于喜欢为您推荐</h1>
+            </div>
+            <div class="row">
+                {% for selected in selected_rows %}
+                    <div class="col-lg-6">
+                        <div class="card py-3">
+                            <img src="{{ selected.12 }}" height="300" alt="{{ selected.1 }}">
+                            <div class="card-body">
+                                <h5 class="card-title">景区:{{ selected.1 }}
+                                </h5>
+                                <p class="card-text">HOT: {{ selected.3 }}km</p>
+                                <p class="card-text">评分: {{ selected.8 }}</p>
+                                <p class="card-text">位置: {{ selected.10 }}元</p>
+                                <p class="card-text">特点:
+                                    {{ selected.4 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

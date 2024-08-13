@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+{% block main %}
+
+    <div class="pagetitle">
+        <div class="card" style="padding: 50px">
+            <h1>日消费次数趋势</h1>
+            <div id="chart1" style="width: 100%; height: 600px"></div>
+        </div>
+
+    </div>
+    <script>
+        $(function () {
+            f1();
+
+            function f1() {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('chart1'));
+
+                // 指定图表的配置项和数据
+                option = {
+                    tooltip: {
+                        trigger: 'axis', // 设置tooltip在坐标轴上显示
+                        axisPointer: {
+                            lineStyle: {
+                                color: 'red' // 将虚线颜色设置为透明
+                            }
+                        }
+                    },
+                    grid: {
+                        left: '30',
+                        top: '50px',
+                        right: '30',
+                        bottom: '0',
+                        containLabel: true
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        left: 'center',
+                        top: '30px',
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: {{ date_time|safe }}
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: '工作日消费次数曲线',
+                            data: {{ hourly_work_day_data|safe }},
+                            type: 'line',
+                            smooth: true,
+                            symbol: 'circle',
+                            symbolSize: 5,
+                            showSymbol: false,
+                            lineStyle: {
+                                normal: {
+                                    width: 2
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(252,31,103,0.5)',
+                                    borderWidth: 12
+                                }
+                            },
+                        },
+                        {
+                            name: '休息日消费次数曲线',
+                            data: {{ hourly_unwork_day_data|safe }},
+                            type: 'line',
+                            smooth: true,
+                            symbol: 'circle',
+                            symbolSize: 5,
+                            showSymbol: false,
+                            lineStyle: {
+                                normal: {
+                                    color: 'rgb(145,255,67)',
+                                    width: 2
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 12
+                                }
+                            },
+                        },
+                    ]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            }
+
+        })
+
+    </script>
+{% endblock %}

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>基于大数据的用户行为分析系统</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="../static/img/logo.png">
+
+    <!-- Vendor CSS Files -->
+    <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="../static/assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg">
+
+<main>
+    <div class="container">
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="/" class="logo d-flex align-items-center w-auto">
+                                <img src="../static/img/logo.png" alt="">
+                                <span class="d-none d-lg-block">回到首页</span>
+                            </a>
+                        </div><!-- End Logo -->
+                        <div class="row" style="width: 500px">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <!-- Bordered Tabs -->
+                                        <div class="d-flex justify-content-center">
+                                            <ul class="nav nav-tabs nav-tabs-bordered">
+                                                <li class="nav-item">
+                                                    <button class="nav-link active" data-bs-toggle="tab"
+                                                            data-bs-target="#profile-edit">用户信息
+                                                    </button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button class="nav-link" data-bs-toggle="tab"
+                                                            data-bs-target="#profile-change-password">修改密码
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-content pt-2">
+                                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+                                                <!-- Profile Edit Form -->
+                                                <form id="form1">
+                                                    <div class="row mb-3">
+                                                        <label for="profileImage"
+                                                               class="col-md-4 col-lg-3 col-form-label">用户头像</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            {% if user.avatar %}
+                                                                <img id="profile" src="{{ user.avatar.url }}" alt="用户头像"
+                                                                     style="width: 200px">
+                                                            {% else %}
+                                                                <img id="profile"
+                                                                     src="../static/img/img.png" alt="用户头像"
+                                                                     style="width: 200px">
+                                                            {% endif %}
+                                                            <div class="pt-2">
+                                                                <label for="profileImage" class="btn btn-primary btn-sm"
+                                                                       title="Upload new profile image"><i
+                                                                        class="bi bi-upload"></i></label>
+                                                                <a href="#" class="btn btn-danger btn-sm"
+                                                                   title="Remove my profile image"><i
+                                                                        class="bi bi-trash"></i></a>
+                                                                <input type="file" id="profileImage"
+                                                                       style="display:none;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">用户名</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="fullName" type="text" class="form-control"
+                                                                   id="fullName" value="{{ user.username }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="gender"
+                                                               class="col-md-4 col-lg-3 col-form-label">性别</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <select name="gender" id="gender" class="form-control">
+                                                                {% if user.gender == '0' %}
+                                                                    <option value="1">男</option>
+                                                                    <option value="0" selected>女</option>
+                                                                {% elif user.gender == '1' %}
+                                                                    <option value="1" selected>男</option>
+                                                                    <option value="0">女</option>
+                                                                {% else %}
+                                                                    <option value="1" selected>男</option>
+                                                                    <option value="0">女</option>
+                                                                {% endif %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="company" class="col-md-4 col-lg-3 col-form-label">城市</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="company" type="text" class="form-control"
+                                                                   id="company" value="{{ user.city }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="birthday" class="col-md-4 col-lg-3 col-form-label">生日</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="birthday" type="date" class="form-control"
+                                                                   id="birthday"
+                                                                   value="{{ user.birthday|date:'Y-m-d' }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-primary">确认修改
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <div class="tab-pane fade pt-3" id="profile-change-password">
+                                                <!-- Change Password Form -->
+                                                <form id="form2">
+                                                    <div class="row mb-3">
+                                                        <label for="currentPassword"
+                                                               class="col-md-4 col-lg-3 col-form-label">旧密码</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="password" type="password" class="form-control"
+                                                                   id="currentPassword">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="newPassword"
+                                                               class="col-md-4 col-lg-3 col-form-label">新密码</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="newpassword" type="password"
+                                                                   class="form-control" id="newPassword">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="renewPassword"
+                                                               class="col-md-4 col-lg-3 col-form-label">再次输入</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="renewpassword" type="password"
+                                                                   class="form-control" id="renewPassword">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-primary">确认修改
+                                                        </button>
+                                                    </div>
+                                                </form><!-- End Change Password Form -->
+                                            </div>
+                                        </div><!-- End Bordered Tabs -->
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="credits" style="height: 80px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<script src="../static/assets/js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        // 显示选择的图片
+        $('input#profileImage').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('img#profile').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        });
+        // 重置为默认占位符图像
+        $('a.btn-danger').click(function () {
+            $('img#profile').attr('src', 'assets/img/profile-img.jpg');
+            $('input#profileImage').val('');
+        });
+    });
+</script>
+<script>
+    $(function () {
+        // 监听选择文件事件
+        $('#profileImage').on('change', function () {
+            var file = $(this)[0].files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#profile').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        });
+        // 监听表单提交事件
+        $('#form1').on('submit', function (e) {
+            e.preventDefault();
+            var form_data = new FormData();
+            var file_data = $('#profileImage').prop('files')[0];
+            form_data.append('profileImage', file_data);
+            form_data.append('fullName', $('#fullName').val());
+            form_data.append('gender', $('#gender').val());
+            form_data.append('company', $('#company').val());
+            form_data.append('birthday', $('#birthday').val());
+            $.ajax({
+                url: '/userUpdateInfo/',
+                type: 'POST',
+                data: form_data,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.code === 200) {
+                        alert(response.errmsg);
+                        window.location.reload()
+                    } else {
+                        alert(response.errmsg)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('网络错误，请重试！');
+                }
+            });
+        });
+    });
+    // 为第二个表单添加事件处理程序
+    $('#form2').submit(function (event) {
+        // 阻止默认的表单提交行为
+        event.preventDefault();
+
+        // 获取表单数据
+        var formData = new FormData(this);
+
+        // 发送异步请求
+        $.ajax({
+            url: 'userUpdatePwd',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert(response.errmsg);
+                } else {
+                    alert(response.errmsg)
+                }
+            },
+            error: function (xhr, status, error) {
+                // 处理错误
+                alert('网络错误，请重试！');
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

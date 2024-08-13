@@ -1,0 +1,159 @@
+{% extends 'index.html' %}
+
+
+{% block main %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">校园卡余额日分布</div>
+                <!-- 绘制柱状图的容器 -->
+                <div id="bar-chart" style="width: 100%;height:100%;min-height: 600px; margin-bottom: 20px"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">消费地点分布</div>
+                <div id="chart" style="width: 100%;height:100%;min-height: 250px; margin-bottom: 20px"></div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">结论：</div>
+                <div class="card-body" style="padding-top: 10px">
+                    <div class="table-responsive">
+
+                        <p>
+                            消费趋势分析：从消费时间的数据来看，整个四月份的消费呈现出一定的波动。起初几天的消费金额相对较高，随后在中旬有所下降，接着在月底又有所回升。这种趋势可能反映了消费者在月初和月底的购物需求较为旺盛，而在月中则可能因为各种原因有所减少。
+                            消费地点分析：从消费地点的数据来看，不同地点的消费金额存在显著的差异。其中，第一食堂、第二食堂、第五食堂和第四食堂的消费金额最高，远超过其他地点。这表明食堂是消费者主要的消费场所，尤其是在餐饮方面。另外，好利来食品店和红太阳超市的消费金额也相对较高，说明这些零售店在消费者日常购物中也占据了一定的市场份额。
+                            综上所述，四月份的消费数据和地点信息揭示了消费者在食堂和零售店等场所的购物习惯和趋势，同时也反映了消费者的支出计划和消费习惯。这些信息对于商家来说具有重要的参考价值，可以帮助他们更好地了解市场需求，优化商品结构和服务质量，从而提高经营效益。</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            f1();
+            f2();
+
+            function f1() {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('bar-chart'));
+
+                // 指定图表的配置项和数据
+                option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        top: '20',
+                        left: '3%',
+                        right: '12%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        name: '余额',
+                        type: 'value',
+                        boundaryGap: [0, 0.01]
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: {{ date|safe }},
+                        "axisLabel": {
+                            interval: 0
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                color: '#19CAAD'
+                            },
+                            data: {{ data|safe }}
+                        }
+                    ]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            }
+
+            function f2() {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('chart'));
+
+                // 指定图表的配置项和数据
+                // 配置参数
+                var option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        top: '20',
+                        left: '3%',
+                        right: '12%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: {{ ddf_data.0|safe }},
+                        axisLabel: {
+                            rotate: 45 // 设置标签倾斜45度
+                        }
+                    },
+                    yAxis: {
+                        type: 'value',
+                    },
+                    series: [{
+                        data: {{ ddf_data.1|safe }},
+                        type: 'scatter'
+                    }]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.addEventListener("resize", function () {
+                    myChart.resize();
+                });
+            }
+
+        })
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

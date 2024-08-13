@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>校园大数据分析系统</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../static/img/logo.png" rel="icon">
+
+    <!-- Vendor CSS Files -->
+    <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="../static/assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg">
+
+<main>
+    <div class="container">
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="index.html" class="logo d-flex align-items-center w-auto">
+                                <img src="../static/img/logo.png" alt="">
+                                <span class="d-none d-lg-block">校园大数据分析系统</span>
+                            </a>
+                        </div><!-- End Logo -->
+
+                        <div class="card mb-3 bg2" style="width: 500px">
+
+                            <div class="card-body">
+
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">用户登录</h5>
+                                </div>
+
+                                <form id="from" class="row g-3 needs-validation" novalidate method="post"
+                                      action="/login">
+
+                                    <div class="col-12">
+                                        <label for="yourUsername" class="form-label">用户名</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" name="username" class="form-control" id="yourUsername"
+                                                   required>
+                                            <div class="invalid-feedback">Please enter your username.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="yourPassword" class="form-label">密码</label>
+                                        <input type="password" name="password" class="form-control" id="yourPassword"
+                                               required>
+                                        <div style="color: red">{{ error_msg }}</div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="remember" value="true"
+                                                   id="rememberMe">
+                                            <label class="form-check-label" for="rememberMe">记住密码</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label>登录类型：</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="login_type"
+                                                           value="frontend" checked>
+                                                    <label class="form-check-label">普通用户</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="login_type"
+                                                           value="admin">
+                                                    <label class="form-check-label">管理员</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button id="login" class="btn btn-primary w-100"
+                                                type="submit">登录
+                                        </button>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="small mb-0">没有账户？
+                                            <a href="/register">去注册</a></p>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <div class="credits" style="height: 80px">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</main><!-- End #main -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Template Main JS File -->
+<script src="../static/assets/js/main.js"></script>
+<script>
+    // 滑块验证码
+    $('#mpanel4').slideVerify({
+        type: 2,   //类型
+        vOffset: 5,  //误差量，根据需求自行调整
+        vSpace: 5, //间隔
+        imgName: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'],
+        imgSize: {
+            // 设置100%宽度
+            width: '100%',
+            height: '200px',
+        },
+        blockSize: {
+            width: '40px',
+            height: '40px',
+        },
+        barSize: {
+            width: '100%',
+            height: '40px',
+        },
+        ready: function () {
+        },
+        success: function () {
+            // alert('验证成功，添加你自己的代码！');
+            //......后续操作
+            console.log('验证成功')
+            $(document).ready(function () {
+                $('#login').css('display', 'block');
+            });
+        },
+        error: function () {
+            alert('验证失败！');
+        }
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>校园大数据分析系统</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../static/img/logo.png" rel="icon">
+
+
+    <!-- Vendor CSS Files -->
+    <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../static/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="../static/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="../static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../static/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="../static/assets/css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+</head>
+
+<body>
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center" style="width: 300px">
+            <img src="../static/img/logo.png" alt="">
+            <span class="d-none d-lg-block">校园大数据分析系统</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            </ul>
+
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <span id="timeShow" style="margin-right: 180px"></span>
+                    <span style="margin-right: 20px">欢迎您:</span>
+                    {% if user.avatar %}
+                        <img id="profile" src="{{ user.avatar.url }}" alt="用户头像"
+                             style="width: 50px; border-radius: 5px; margin-right: 10px">
+                    {% else %}
+                        <img id="profile"
+                             src="../static/img/img.png" alt="用户头像"
+                             style="width: 50px; border-radius: 5px;">
+                    {% endif %}
+                    <span class="d-none d-md-block dropdown-toggle ps-2"
+                          style="color: #00f2ff">{{ user.username }}</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/userInfo">
+                            <i class="bi bi-box"></i>
+                            <span>用户中心</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/logout">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>退出登录</span>
+                        </a>
+                    </li>
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+        </ul>
+    </nav>
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/index">
+                <i class="bi bi-grid"></i>
+                <span>首页</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/info">
+                <i class="bi bi-database"></i>
+                <span>数据中心</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/xfpc">
+                <i class="bi bi-bar-chart"></i>
+                <span>消费地点频次</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/jcdd">
+                <i class="bi bi-funnel"></i>
+                <span>进出地点分布</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/time">
+                <i class="bi bi-prescription"></i>
+                <span>日消费次数趋势</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/ye">
+                <i class="bi bi-line"></i>
+                <span>校园卡余额分析</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/arm">
+                <i class="bi bi-map"></i>
+                <span>校园卡消费次数预测</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/predict">
+                <i class="bi bi-map"></i>
+                <span>回归消费地点预测</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+<main id="main" class="main">
+    <div class="pagetitle">
+        {% block main %}
+            <div class="card" style="padding: 20px">
+                <div class="row">
+                    <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h1 style="text-align: center">校园大数据分析系统</h1>
+                        <h5 style="line-height: 1.5; margin-top: 10px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            利用python语言，对校园卡数据进行清洗合并处理后，使用Django框架作为系统后端，bootstrap作为前端框架，
+                            echarts渲染图表数据，进行分析可视化。并使用机器学习算法分享用户行为。</h5>
+                        <img src="../static/img/login.jpg" alt="" style="height: 500px">
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+</main>
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="../static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../static/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="../static/assets/vendor/echarts/echarts.min.js"></script>
+<script src="../static/js/echarts-wordcloud.min.js"></script>
+<script src="../static/js/china.js"></script>
+<script src="../static/assets/vendor/quill/quill.min.js"></script>
+<script src="../static/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="../static/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="../static/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../static/assets/js/main.js"></script>
+
+<script>
+    function dynamic_navigation() {
+        let a_list = document.querySelectorAll('.nav-link')
+        let path = location.pathname
+        console.log(path)
+        for (const a of a_list) {
+            let a_href = a.getAttribute('href')
+            console.log(a_href)
+            if (a_href === path || a_href + '/' === path) {
+                a.classList.remove('collapsed')
+            }
+        }
+    }
+
+    dynamic_navigation();
+</script>
+<script>
+    var links = document.querySelectorAll('#link_href')
+    // 循环遍历链接元素
+    for (var i = 0; i < links.length; i++) {
+        // 获取当前链接元素的href属性值
+        var href = links[i].getAttribute('href');
+        // 检查当前链接元素的href属性是否与所需路径相等
+        if (href === location.pathname) {
+            // 清除之前的类
+            var parent = links[i].parentNode.parentNode;
+            parent.classList.remove('show');
+            links[i].classList.remove('active');
+            // 添加新的类
+            parent.classList.add('show');
+            links[i].classList.add('active');
+        }
+    }
+</script>
+
+<script>
+    var t = null;
+    t = setTimeout(time, 1000);//开始执行
+    function time() {
+
+        clearTimeout(t);//清除定时器
+
+        dt = new Date();
+
+        var y = dt.getYear() + 1900;
+
+        var mm = dt.getMonth() + 1;
+
+        var d = dt.getDate();
+
+        var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+        var day = dt.getDay();
+
+        var h = dt.getHours();
+
+        var m = dt.getMinutes();
+
+        var s = dt.getSeconds();
+
+        if (h < 10) {
+            h = "0" + h;
+        }
+        if (m < 10) {
+            m = "0" + m;
+        }
+        if (s < 10) {
+            s = "0" + s;
+        }
+        document.getElementById("timeShow").innerHTML = y + "年" + mm + "月" + d + "日" + weekday[day] + "" + h + ":" + m + ":" + s + "";
+
+        t = setTimeout(time, 1000); //设定定时器，循环执行
+
+    }
+
+</script>
+</body>
+
+</html>

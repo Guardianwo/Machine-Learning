@@ -1,0 +1,195 @@
+{% extends 'index.html' %}
+{% block main %}
+    <style>
+        /* 按钮样式 */
+        .button {
+            display: inline-block;
+            border: 1px solid blue;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 1s;
+        }
+
+        /* 鼠标悬停时的样式 */
+        .button:hover, .button.active {
+            background-color: #2463b4;
+            color: white;
+        }
+
+        /* 按钮边框样式 */
+        .button-left {
+            border-right: none;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .button-center {
+            border-left: none;
+        }
+
+        .button-right {
+            border-left: none;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+    </style>
+    <div class="container-fluid">
+        <div class="col-lg-12" style="display: flex;justify-content: center;margin-top: 30px;">
+            <div style="width: 200px; text-align: center" class="button button-left active" onclick="showContent(1)">
+                校园卡数据一
+            </div>
+            <div style="width: 200px; text-align: center" class="button button-center" onclick="showContent(2)">
+                校园卡数据二
+            </div>
+            <div style="width: 200px; text-align: center" class="button button-right" onclick="showContent(3)">
+                校园卡数据三
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+
+            <div class="col-lg-12" id="content1">
+                <div class="card mb-4">
+                    <div class="card-header">校园卡数据一</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%"
+                                   style="white-space: nowrap;">
+                                <thead>
+                                <tr>
+                                    {% for col in col1 %}
+                                        <th>{{ col }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for rows in rows1 %}
+                                    <tr>
+                                        {% for row in rows %}
+                                            <td>{{ row }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" id="content2" style="display: none">
+                <div class="card mb-4">
+                    <div class="card-header">校园卡数据二</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable2" width="100%"
+                                   style="white-space: nowrap;">
+                                <thead>
+                                <tr>
+                                    {% for col in col2 %}
+                                        <th>{{ col }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for rows in rows2 %}
+                                    <tr>
+                                        {% for row in rows %}
+                                            <td>{{ row }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" id="content3" style="display: none">
+                <div class="card mb-4">
+                    <div class="card-header">校园卡数据三</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable3" width="100%"
+                                   style="white-space: nowrap;">
+                                <thead>
+                                <tr>
+                                    {% for col in col3 %}
+                                        <th>{{ col }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for rows in rows3 %}
+                                    <tr>
+                                        {% for row in rows %}
+                                            <td>{{ row }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showContent(index) {
+            var contentDivs = document.querySelectorAll('[id^="content"]');
+            var buttons = document.querySelectorAll('.button');
+
+            buttons.forEach(function (button) {
+                button.classList.remove('active');
+            });
+
+            contentDivs.forEach(function (contentDiv) {
+                contentDiv.style.display = 'none';
+            });
+
+            document.getElementById('content' + index).style.display = 'block';
+            document.querySelector('.button:nth-child(' + index + ')').classList.add('active');
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="../static/datatables/dataTables.bootstrap4.min.css">
+    <script type="text/javascript" src="../static/datatables/jquery.dataTables.min.js.js"></script>
+    <script type="text/javascript" src="../static/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            initializeDataTable('#dataTable');
+            initializeDataTable('#dataTable2');
+            initializeDataTable('#dataTable3');
+        });
+
+        function initializeDataTable(tableId) {
+            $(tableId).DataTable({
+                "lengthMenu": [10, 15],
+                "language": {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                }
+            });
+        }
+    </script>
+
+{% endblock %}
